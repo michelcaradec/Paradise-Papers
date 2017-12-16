@@ -177,7 +177,7 @@ The script for the entire process can be found in [import.sh](import.sh) file.
 
 ## Metagraph
 
-Once imported, the database metagraph can be display in **Neo4j Browser** be running the command, with the help of [Awesome Procedures On Cypher](https://github.com/neo4j-contrib/neo4j-apoc-procedures) (APOC) library:
+Once imported, the database metagraph can be display in **Neo4j Browser** by running the following command, with the help of [Awesome Procedures On Cypher](https://github.com/neo4j-contrib/neo4j-apoc-procedures) (APOC) library:
 
 ```cypher
 CALL apoc.meta.graph()
