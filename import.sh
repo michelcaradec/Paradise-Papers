@@ -10,13 +10,13 @@ tar -xzvf csv_paradise_papers.2017-11-17.zip -C import
 # Nodes
 for NODES_FILE in import/*.nodes.*.csv
 do
-    # Header Rows
+    # Header
     head -n 1 $NODES_FILE |
         sed "s/labels(n)/\:LABEL/" |
         sed "s/n\.node_id/node_id\:ID/" |
         sed "s/\"//g" |
         sed "s/n\.//g" > $NODES_FILE.refined
-    # Detail Rows
+    # Rows
     tail -n +2 $NODES_FILE |
         sed "s/\[\"\"//" |
         sed "s/\"\"\]//" >> $NODES_FILE.refined
@@ -25,14 +25,14 @@ done
 # Relationships
 for EDGES_FILE in import/*.edges.csv
 do
-    # Header Rows
+    # Header
     head -n 1 $EDGES_FILE |
         sed "s/node_1/\:START_ID/" |
         sed "s/node_2/\:END_ID/" |
         sed "s/rel_type/\:TYPE/" |
         sed "s/\"//g" |
         sed "s/r\.//g" > $EDGES_FILE.refined
-    # Detail Rows
+    # Rows
     tail -n +2 $EDGES_FILE >> $EDGES_FILE.refined
 done
 

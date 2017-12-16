@@ -29,7 +29,7 @@ Few transformations must be done on original files to comply with Neo4j [CSV fil
 
 ### Nodes Files
 
-#### Header Rows Engineering
+#### Header Engineering
 
 1. `labels(n)` => `:LABEL`.
 2. `n.node_id` => `node_id:ID`.
@@ -58,7 +58,7 @@ After:
 :LABEL,valid_until,country_codes,countries,node_id:ID,sourceID,address,name,jurisdiction_description,service_provider,jurisdiction,closed_date,incorporation_date,ibcRUC,type,status,company_type,note
 ```
 
-#### Detail Rows Engineering
+#### Rows Engineering
 
 1. Remove `[""` pattern on label column.
 2. Remove `""]` pattern on label column.
@@ -87,7 +87,7 @@ After:
 
 ### Relationships File
 
-#### Header Rows Engineering
+#### Header Engineering
 
 1. `node_1` => `:START_ID`.
 2. `node_2` => `:END_ID`.
@@ -126,13 +126,13 @@ Reminder: script must be executed from Neo4j Desktop database root directory, in
 # Nodes
 for NODES_FILE in import/*.nodes.*.csv
 do
-    # Header Rows
+    # Header
     head -n 1 $NODES_FILE |
         sed "s/labels(n)/\:LABEL/" |
         sed "s/n\.node_id/node_id\:ID/" |
         sed "s/\"//g" |
         sed "s/n\.//g" > $NODES_FILE.refined
-    # Detail Rows
+    # Rows
     tail -n +2 $NODES_FILE |
         sed "s/\[\"\"//" |
         sed "s/\"\"\]//" >> $NODES_FILE.refined
@@ -141,14 +141,14 @@ done
 # Relationships
 for EDGES_FILE in import/*.edges.csv
 do
-    # Header Rows
+    # Header
     head -n 1 $EDGES_FILE |
         sed "s/node_1/\:START_ID/" |
         sed "s/node_2/\:END_ID/" |
         sed "s/rel_type/\:TYPE/" |
         sed "s/\"//g" |
         sed "s/r\.//g" > $EDGES_FILE.refined
-    # Detail Rows
+    # Rows
     tail -n +2 $EDGES_FILE >> $EDGES_FILE.refined
 done
 ```
@@ -174,6 +174,16 @@ rm import/*
 ```
 
 The script for the entire process can be found in [import.sh](import.sh) file.
+
+## Metagraph
+
+Once imported, the database metagraph can be display in **Neo4j Browser** be running the command, with the help of [Awesome Procedures On Cypher](https://github.com/neo4j-contrib/neo4j-apoc-procedures) (APOC) library:
+
+```cypher
+CALL apoc.meta.graph()
+```
+
+![](assets/metagraph.png)
 
 ## Miscellaneous
 
