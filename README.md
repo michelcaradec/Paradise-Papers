@@ -223,7 +223,7 @@ Output:
 Added 178 labels, created 178 nodes, set 356 properties, created 160080 relationships, completed after 62864 ms.
 ```
 
-Here again, we took benefit from [Awesome Procedures On Cypher](https://github.com/neo4j-contrib/neo4j-apoc-procedures) library using function **apoc.coll.zipToRows**.
+Here again, we took benefit from [Awesome Procedures On Cypher](https://github.com/neo4j-contrib/neo4j-apoc-procedures) library by using **apoc.coll.zipToRows** function.
 
 ### Jurisdiction Nodes
 
@@ -240,6 +240,6 @@ Output:
 Added 44 labels, created 44 nodes, set 88 properties, created 24958 relationships, completed after 1580 ms.
 ```
 
-Resulting **meta-graph** (new nodes are shown in red):
+Resulting **meta-graph** (new nodes labels are shown in red):
 
 ![](assets/metagraph_extended.png)
