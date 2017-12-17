@@ -194,3 +194,52 @@ Before importing data using **neo4j-admin**, an attempt was made to use [Cypher]
 It worked fine for nodes import, but failed to import relationships, as their number was to important to be processed in an acceptable time (file `paradise_papers.edges.csv` contains **364 457** lines).
 
 The script written for this attempt is available in [create.cypher](create.cypher) file.
+
+## Extending Paradise Papers Graph
+
+The information imported from Paradise Papers dataset, and now contained in nodes' properties, can be used to extend the database model by creating new nodes and relationships.
+
+### Country Nodes
+
+```cypher
+MATCH (n)
+WHERE n.countries <> ""
+WITH
+n,
+split(n.countries,";") AS countries,
+split(n.country_codes,";") AS codes
+CALL apoc.coll.zipToRows(countries, codes) YIELD value
+WITH
+n,
+value[0] AS country,
+value[1] AS code
+MERGE (c:Country {name: country, code: code})
+CREATE (n)-[:in_country]->(c)
+```
+
+Output:
+
+```
+Added 178 labels, created 178 nodes, set 356 properties, created 160080 relationships, completed after 62864 ms.
+```
+
+Here again, we took benefit from [Awesome Procedures On Cypher](https://github.com/neo4j-contrib/neo4j-apoc-procedures) library using function **apoc.coll.zipToRows**.
+
+### Jurisdiction Nodes
+
+```cypher
+MATCH (n)
+WHERE n.jurisdiction <> ""
+MERGE (j:Jurisdiction {name: n.jurisdiction, description: n.jurisdiction_description})
+CREATE (n)-[:in_jurisdiction]->(j)
+```
+
+Output:
+
+```
+Added 44 labels, created 44 nodes, set 88 properties, created 24958 relationships, completed after 1580 ms.
+```
+
+Resulting **meta-graph** (new nodes are shown in red):
+
+![](assets/metagraph_extended.png)
