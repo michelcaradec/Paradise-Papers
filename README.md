@@ -2,7 +2,7 @@
 
 On December 1, [Neo4j](https://neo4j.com/) [released](https://neo4j.com/blog/icij-releases-neo4j-desktop-download-paradise-papers/) a version of its **Neo4j Desktop** tool containing [ICIJ Paradise Papers](https://www.icij.org/investigations/paradise-papers/) database.
 
-This dataset, among others such as [Panama Papers](https://github.com/michelcaradec/Panama-Papers)' one, can also be downloaded on [ICIJ web site](https://offshoreleaks.icij.org/pages/database).
+This dataset, among others such as [Panama Papers](https://github.com/michelcaradec/Panama-Papers)' one, can also be downloaded from [ICIJ web site](https://offshoreleaks.icij.org/pages/database).
 
 The following is a script to import Paradise Papers dataset into your existing Neo4j Desktop instance using [neo4j-admin](https://neo4j.com/docs/operations-manual/current/tools/neo4j-admin/) command line utility.
 
@@ -11,6 +11,8 @@ As it is **bash**, it only works on **Linux** and **MacOS**.
 ## Before Starting
 
 All operations must be performed from Neo4j Desktop database (1) root directory (2), accessible via **Terminal** tab (3) in Neo4j Desktop. On MacOS, directory full path should be something like `/Users/$USER/Library/Application Support/Neo4j Desktop/Application/neo4jDatabases/database-$GUID/installation-$VERSION`.
+
+Files to import will be located in **import** sub-directory (4).
 
 ![](assets/neo4j_desktop_database.png)
 
@@ -177,7 +179,7 @@ The script for the entire process can be found in [import.sh](import.sh) file.
 
 ## Metagraph
 
-Once imported, the database metagraph can be display in **Neo4j Browser** by running the following command, with the help of [Awesome Procedures On Cypher](https://github.com/neo4j-contrib/neo4j-apoc-procedures) (APOC) library:
+Once imported, the database **meta-graph** can be displayed in **Neo4j Browser** by running the following command, with the help of [Awesome Procedures On Cypher](https://github.com/neo4j-contrib/neo4j-apoc-procedures) (APOC) library:
 
 ```cypher
 CALL apoc.meta.graph()
